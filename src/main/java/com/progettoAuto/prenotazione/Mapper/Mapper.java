@@ -40,16 +40,12 @@ public class Mapper {
 			p.setSeriale(_prenotazione.get(i).getAuto().getSeriale());
 			p.setDataInizio(_prenotazione.get(i).getDataInizio());
 			p.setDataFine(_prenotazione.get(i).getDataFine());
-				
-			
+
 			prenotazione.add(p);
 		}
-
 		return (List<PrenotazioneDto>)prenotazione;
 	}
-	
 
-	
 	public PrenotazioneDto convertEntityToDto(Prenotazione _prenotazione) {
 		
 		PrenotazioneDto prenotazione=new PrenotazioneDto();

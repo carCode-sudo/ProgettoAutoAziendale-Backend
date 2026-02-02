@@ -16,21 +16,17 @@ import com.progettoAuto.prenotazione.repository.AutoRepository;
 @Service
 public class AutoServiceImplementation implements AutoService {
 
-	
-		
+
 	@Autowired
 	private AutoRepository  autoRepository;
 	@Autowired
 	private Mapper  mapper;
-	
-	
-	
+
 	@Override
 	public Auto saveAuto(Auto auto) {			
 		return autoRepository.save(auto);
 		
 	}
-	
 	@Override
 	public List<Auto> getAllAuto(){
 
@@ -39,8 +35,7 @@ public class AutoServiceImplementation implements AutoService {
 	return auto;
 			
 	}
-	
-	
+
 	public Optional<Auto> getSingleAuto(Integer id) {
 		
 		return autoRepository.findById_(id);

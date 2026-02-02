@@ -9,17 +9,11 @@ import lombok.Data;
 
 @Data
 public class PrenotazioneDto {
-	
-	
-	
-	
+
 	private int id;
 	private String codiceFiscale;
 	private String seriale;	
 	private LocalDate dataInizio;
 	private LocalDate  dataFine;
-	
-	
-	
 
 }

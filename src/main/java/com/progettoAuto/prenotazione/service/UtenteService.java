@@ -10,8 +10,6 @@ import com.progettoAuto.prenotazione.Dto.UtenteDto;
 import com.progettoAuto.prenotazione.model.Utente;
 
 public interface UtenteService{
-	
-	
 
 	public UtenteDto saveUtente(UtenteDto _utente);
 	

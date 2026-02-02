@@ -34,8 +34,7 @@ public UtenteDto convertEntityToDto(Utente _utente) {
 public Utente convertDtoToEntity(UtenteDto _utente) {
 	
 	Optional<Utente> p= utenteRepo.findByCodiceFiscale(_utente.getCodiceFiscale());
-	
-	
+
 	Utente utente = new Utente();
 	
 	utente.setNome(_utente.getNome());
@@ -43,20 +42,12 @@ public Utente convertDtoToEntity(UtenteDto _utente) {
 	utente.setCodiceFiscale(_utente.getCodiceFiscale());
 	
 	if(p.isPresent()) {
-		
 		utente.setLivello(p.get().getLivello());
 	}else {
 		utente.setLivello(1);
 	}
-	
-	
-	
+
 	return utente;
 }
-
-
-	
-	
-	
 	
 }

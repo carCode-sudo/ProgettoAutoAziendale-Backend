@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,18 +27,32 @@ public class PrenotazioneController {
 	@Autowired
 	private Mapper mapper;
 
-	@PostMapping("/verifica")
-	public ResponseEntity<PrenotazioneDto> verifica( @RequestBody PrenotazioneDto _prenotazione){
-		boolean exist = prenotazioneService.prenotazioneExists( _prenotazione);
-		if(exist) {
-			
-			System.out.println("stampa exsist"+exist);
-			return ResponseEntity.ok(_prenotazione);
-		}else {
-			inserisci(_prenotazione);
-			return ResponseEntity.accepted().body(_prenotazione);
+
+	@PostMapping("/crea")
+	public ResponseEntity<?> creaPrenotazione(@RequestBody Prenotazione prenotazione,
+											  @AuthenticationPrincipal Jwt jwt){
+		try{
+			String username = jwt.getClaimAsString("preferred_usarname");
+			Prenotazione salvata;
+			salvata = PrenotazioneService.effettuaPrenotazione(prenotazione , username);
+			return ResponseEntity.ok(salvata);
+		}catch (RuntimeException e){
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+
+//	@PostMapping("/verifica")
+//	public ResponseEntity<PrenotazioneDto> verifica( @RequestBody PrenotazioneDto _prenotazione){
+//		boolean exist = prenotazioneService.prenotazioneExists( _prenotazione);
+//		if(exist) {
+//
+//			System.out.println("stampa exsist"+exist);
+//			return ResponseEntity.ok(_prenotazione);
+//		}else {
+//			inserisci(_prenotazione);
+//			return ResponseEntity.accepted().body(_prenotazione);
+//		}
+//	}
 	public PrenotazioneDto inserisci( PrenotazioneDto _prenotazione){
 		prenotazioneService.insertPrenotazione(_prenotazione);
 		return _prenotazione;
