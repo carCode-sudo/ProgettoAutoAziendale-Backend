@@ -33,11 +33,8 @@ public class AutoServiceImplementation implements AutoService {
 	
 	@Override
 	public List<Auto> getAllAuto(){
-		
-		
+
 		List<Auto> auto= autoRepository.findAll();
-		
-		
 
 	return auto;
 			
