@@ -1,9 +1,8 @@
 package com.progettoAuto.prenotazione;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@com.progettoAuto.prenotazione.SpringBootTest
 class PrenotazioneApplicationTests {
 
 	@Test

@@ -3,6 +3,7 @@ package com.progettoAuto.prenotazione.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.progettoAuto.prenotazione.model.Utente;
 import com.progettoAuto.prenotazione.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,9 @@ public class PrenotazioneService {
 	@Autowired
 	private Mapper mapper;
 
-	private UtenteRepository utenteRepository;
+	private static UtenteRepository utenteRepository;
 
-	public static Prenotazione effettuaPrenotazione(Prenotazione prenotazione, String username) {
+	public static Prenotazione effettuaPrenotazione(Prenotazione prenotazione, Utente utente) {
 
 		Auto auto = autoRepository.findBySeriale(prenotazione.getAuto().getSeriale()).orElseThrow(()-> new RuntimeException("Auto non trovata"));
 
@@ -36,6 +37,7 @@ public class PrenotazioneService {
 		if(collisioni > 0){
 			throw new RuntimeException("l'auto e gia selezionata nel periodo selezionato");
 		}
+		prenotazione.setUtente(utente);
 		prenotazione.setAuto(auto);
 		return  prenotazioneRepository.save(prenotazione);
 

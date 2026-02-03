@@ -2,6 +2,9 @@ package com.progettoAuto.prenotazione.controller;
 
 import java.util.List;
 
+import com.progettoAuto.prenotazione.model.Utente;
+import com.progettoAuto.prenotazione.service.UtenteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,21 +23,24 @@ import com.progettoAuto.prenotazione.service.PrenotazioneService;
 
 @RestController
 @RequestMapping("/prenotazione")
+@RequiredArgsConstructor
 public class PrenotazioneController {
 
 	@Autowired
 	private PrenotazioneService prenotazioneService;
 	@Autowired
 	private Mapper mapper;
+    @Autowired
+    private UtenteService utenteService;
 
 
 	@PostMapping("/crea")
 	public ResponseEntity<?> creaPrenotazione(@RequestBody Prenotazione prenotazione,
 											  @AuthenticationPrincipal Jwt jwt){
 		try{
-			String username = jwt.getClaimAsString("preferred_usarname");
-			Prenotazione salvata;
-			salvata = PrenotazioneService.effettuaPrenotazione(prenotazione , username);
+			Utente utenteLoggato = utenteService.sincronizzaUtente(jwt);
+
+			Prenotazione salvata = PrenotazioneService.effettuaPrenotazione(prenotazione , utenteLoggato);
 			return ResponseEntity.ok(salvata);
 		}catch (RuntimeException e){
 			return ResponseEntity.badRequest().body(e.getMessage());

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.progettoAuto.prenotazione.Dto.UtenteDto;
@@ -12,6 +13,7 @@ import com.progettoAuto.prenotazione.model.Utente;
 import com.progettoAuto.prenotazione.repository.UtenteRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -23,7 +25,28 @@ public class UtenteServiceImplementation implements UtenteService {
 	private UtenteRepository  utenteRepository;
 	@Autowired
 	private MapperUtente mapperUtente;
-	
+
+	@Transactional
+	public Utente sincronizzaUtente(Jwt jwt) {
+		String cf = jwt.getClaimAsString("preferred_username");
+
+		return utenteRepository.findById(cf).orElseGet(() -> {
+			Utente nuovo = new Utente();
+			nuovo.setCodiceFiscale(cf);
+			nuovo.setNome(jwt.getClaimAsString("given_name"));
+			nuovo.setCognome(jwt.getClaimAsString("family_name"));
+			//nuovo.setEmail(jwt.getClaimAsString("email"));
+			return utenteRepository.save(nuovo);
+		});
+	}
+
+
+
+
+
+
+
+
 	@Override
 	public UtenteDto saveUtente(UtenteDto _utente) {	
 		

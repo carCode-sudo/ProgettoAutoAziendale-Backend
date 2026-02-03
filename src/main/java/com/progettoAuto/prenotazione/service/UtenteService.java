@@ -4,6 +4,7 @@ package com.progettoAuto.prenotazione.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.progettoAuto.prenotazione.Dto.UtenteDto;
@@ -20,5 +21,7 @@ public interface UtenteService{
 	public Utente utenteUpdate(UtenteDto _utente);
 	
 	public Optional<Utente> getUtente(Utente utente);
+
+	public Utente sincronizzaUtente(Jwt jwtjwt);
 	
 }
