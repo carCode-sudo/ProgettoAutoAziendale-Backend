@@ -14,6 +14,8 @@ public interface AutoService{
 	public List<Auto> getAllAuto();
 	
 	public Optional<Auto> getSingleAuto(Integer id);
+
+	public Optional<Auto> findAutoBySeriale(String seriale);
 	
 	public AutoDto convertEntityToDto(Auto p);
 	

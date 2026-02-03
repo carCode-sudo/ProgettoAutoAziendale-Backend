@@ -28,7 +28,7 @@ public class Utente {
 	private int id;
 	
 	@Id
-	@Column(name="codice_fiscale",insertable=false, updatable=false)	
+	@Column(name="codice_fiscale", nullable = false)
 	private String codiceFiscale;
 	
 	private String nome;

@@ -43,16 +43,17 @@ public class AutoServiceImplementation implements AutoService {
 	}
 
 	@Override
+	public Optional<Auto> findAutoBySeriale(String seriale) {
+		Optional<Auto>  auto = autoRepository.findAutoBySeriale(seriale);
+		System.out.println("auto torvara " + auto);
+		return autoRepository.findAutoBySeriale(seriale);
+	}
+
+	@Override
 	public AutoDto convertEntityToDto(Auto p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-	
-	
-	
-	
 	
 }
