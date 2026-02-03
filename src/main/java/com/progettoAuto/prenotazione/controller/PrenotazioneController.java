@@ -5,6 +5,7 @@ import java.util.List;
 import com.progettoAuto.prenotazione.model.Utente;
 import com.progettoAuto.prenotazione.service.UtenteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +22,7 @@ import com.progettoAuto.prenotazione.Mapper.Mapper;
 import com.progettoAuto.prenotazione.model.Prenotazione;
 import com.progettoAuto.prenotazione.service.PrenotazioneService;
 
+@Slf4j
 @RestController
 @RequestMapping("/prenotazione")
 @RequiredArgsConstructor
@@ -39,10 +41,13 @@ public class PrenotazioneController {
 											  @AuthenticationPrincipal Jwt jwt){
 		try{
 			Utente utenteLoggato = utenteService.sincronizzaUtente(jwt);
+			System.out.println("-----------salvata prenotazione ");
 
 			Prenotazione salvata = PrenotazioneService.effettuaPrenotazione(prenotazione , utenteLoggato);
+			System.out.println("-----------salvata prenotazione ");
 			return ResponseEntity.ok(salvata);
-		}catch (RuntimeException e){
+		}catch (Exception e){
+			System.out.println("errore "+ e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}

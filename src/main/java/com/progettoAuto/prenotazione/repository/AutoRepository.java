@@ -11,7 +11,7 @@ import com.progettoAuto.prenotazione.model.Auto;
 @Repository
 public interface AutoRepository extends JpaRepository<Auto,Integer>  {
 	
-	Optional<Auto> findBySeriale(String seriale);
+	Optional<Auto> findAutoBySeriale(String seriale);
 	Optional<Auto> findById_(int id);
 
 }

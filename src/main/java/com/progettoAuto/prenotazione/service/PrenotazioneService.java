@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.progettoAuto.prenotazione.model.Utente;
 import com.progettoAuto.prenotazione.repository.UtenteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import com.progettoAuto.prenotazione.model.Auto;
 import com.progettoAuto.prenotazione.model.Prenotazione;
 import com.progettoAuto.prenotazione.repository.AutoRepository;
 import com.progettoAuto.prenotazione.repository.PrenotazioneRepository;
-
+@Slf4j
 @Service
 public class PrenotazioneService {
 	
@@ -29,16 +30,20 @@ public class PrenotazioneService {
 	private static UtenteRepository utenteRepository;
 
 	public static Prenotazione effettuaPrenotazione(Prenotazione prenotazione, Utente utente) {
+		System.out.println("-----------seriale  "+ prenotazione.getAuto().getSeriale());
 
-		Auto auto = autoRepository.findBySeriale(prenotazione.getAuto().getSeriale()).orElseThrow(()-> new RuntimeException("Auto non trovata"));
+		Optional<Auto> auto = autoRepository.findAutoBySeriale(prenotazione.getAuto().getSeriale());
 
-		int collisioni = prenotazioneRepository.trovaSovrapposizioni(prenotazione.getDataInizio(), prenotazione.getDataFine(), auto.getSeriale());
+		System.out.println("-----------AUTO "+ auto);
+		System.out.println("-----------satrova  findBySeriale "+ auto.get());
+
+		int collisioni = prenotazioneRepository.trovaSovrapposizioni(prenotazione.getDataInizio(), prenotazione.getDataFine(), auto.get().getSeriale());
 
 		if(collisioni > 0){
 			throw new RuntimeException("l'auto e gia selezionata nel periodo selezionato");
 		}
 		prenotazione.setUtente(utente);
-		prenotazione.setAuto(auto);
+		prenotazione.setAuto(auto.get());
 		return  prenotazioneRepository.save(prenotazione);
 
 //		Prenotazione prenotazioneEntity=mapper.convertDtoToEntity(prenotazione);

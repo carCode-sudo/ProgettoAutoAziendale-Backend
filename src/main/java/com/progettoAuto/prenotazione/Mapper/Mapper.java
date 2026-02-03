@@ -64,7 +64,7 @@ public class Mapper {
 		Prenotazione prenotazione= new Prenotazione();
 		
 		
-		Optional<Auto>  auto = autoRepository.findBySeriale(_prenotazione.getSeriale());
+		Optional<Auto>  auto = autoRepository.findAutoBySeriale(_prenotazione.getSeriale());
 		
 		Optional<Utente>  utente = utenteRepository.findByCodiceFiscale(_prenotazione.getCodiceFiscale());
 		
